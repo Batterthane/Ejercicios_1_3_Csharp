@@ -44,10 +44,7 @@ do
 } while (continuar == "s");
 
 
-/*
- * ORDENAR DE MAYOR A MENOR SEGÚN EL LITERAL
- * A → B → C → D
- */
+
 estudiantes = estudiantes
     .OrderBy(estudiante => estudiante.Literal())
     .ThenBy(estudiante => estudiante.Apellido)
@@ -88,9 +85,7 @@ foreach (Estudiante estudiante in estudiantes)
 }
 
 
-/*
- * CONTAR ESTUDIANTES POR LITERAL
- */
+
 int estudiantesA = estudiantes.Count(estudiante => estudiante.Literal() == "A");
 int estudiantesB = estudiantes.Count(estudiante => estudiante.Literal() == "B");
 int estudiantesC = estudiantes.Count(estudiante => estudiante.Literal() == "C");
