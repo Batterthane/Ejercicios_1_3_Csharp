@@ -6,11 +6,7 @@ using System.Linq;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-// ============================================================
-//  PROGRAMA PRINCIPAL
-// ============================================================
 
-// Los cursos se guardan en la carpeta "Cursos", un archivo .txt por curso.
 string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Cursos");
 Directory.CreateDirectory(carpeta);
 
@@ -55,9 +51,6 @@ while (!salir)
 }
 
 
-// ============================================================
-//  SELECCIÓN DE CURSO
-// ============================================================
 
 static Curso SeleccionarCurso(string carpeta)
 {
@@ -94,17 +87,15 @@ static Curso SeleccionarCurso(string carpeta)
                     return existente;
                 }
 
-                break; // 0 = crear uno nuevo
+                break;
             }
 
             Console.WriteLine("Opción no válida.");
         }
     }
 
-    // Crear curso nuevo
     string nombre = LeerTexto("\nNombre del curso: ");
 
-    // Quita caracteres que no se permiten en nombres de archivo
     foreach (char invalido in Path.GetInvalidFileNameChars())
         nombre = nombre.Replace(invalido.ToString(), "");
 
@@ -118,16 +109,11 @@ static Curso SeleccionarCurso(string carpeta)
         Ruta = Path.Combine(carpeta, nombre + ".txt")
     };
 
-    // Si el archivo ya existía, se cargan sus datos
     nuevo.Cargar();
     nuevo.Guardar();
     return nuevo;
 }
 
-
-// ============================================================
-//  FUNCIONES DEL MENÚ
-// ============================================================
 
 static void MostrarMenu(Curso curso)
 {
@@ -236,7 +222,6 @@ static void EliminarEstudiante(Curso curso)
 
 static void MostrarReportes(Curso curso)
 {
-    // Se vuelve a leer el archivo para mostrar siempre lo que está guardado.
     curso.Cargar();
 
     Console.WriteLine("\n");
@@ -251,7 +236,6 @@ static void MostrarReportes(Curso curso)
         return;
     }
 
-    // Se ordena una copia para no alterar el orden del archivo.
     List<Estudiante> ordenados = curso.Estudiantes
         .OrderBy(estudiante => estudiante.Literal())
         .ThenBy(estudiante => estudiante.Apellido)
@@ -303,17 +287,12 @@ static void MostrarReportes(Curso curso)
 }
 
 
-// ============================================================
-//  FUNCIONES AUXILIARES
-// ============================================================
-
 static string LeerTexto(string mensaje)
 {
     while (true)
     {
         Console.Write(mensaje);
 
-        // El símbolo | se usa como separador en el archivo, por eso se quita.
         string texto = (Console.ReadLine() ?? "").Replace("|", " ").Trim();
 
         if (texto != "")
@@ -347,18 +326,12 @@ static void Pausar()
 }
 
 
-// ============================================================
-//  CLASES
-// ============================================================
-
 class Curso
 {
     public required string Nombre { get; set; }
     public required string Ruta { get; set; }
     public List<Estudiante> Estudiantes { get; } = [];
 
-    // Lee el archivo .txt del curso. Formato de cada línea:
-    // Nombre|Apellido|Nota1|Nota2|Nota3|Nota4
     public void Cargar()
     {
         Estudiantes.Clear();
@@ -402,7 +375,6 @@ class Curso
         }
     }
 
-    // Escribe todos los estudiantes del curso en el archivo .txt
     public void Guardar()
     {
         try
